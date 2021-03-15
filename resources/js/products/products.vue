@@ -5,11 +5,10 @@
         </div>
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="'row'+row">
-                <div class="col" v-for="(product , column) in productsInRow(row)" :key="'row' + row + column">
+                <div class="col d-flex align-items-stretch" v-for="(product , column) in productsInRow(row)" :key="'row' + row + column">
                     <Product
                     :product-title=" product.title "
                     :product-description=" product.description "
-                    :product-price="product.price"
                     ></Product>
                 </div>
                 <div class="col" v-for="p in placeholderInRow(row)" :key="'placholder' + row + p"></div>
@@ -48,25 +47,19 @@ export default ({
         },
     },
     created() {
-        this.loading = true;
-        setTimeout(()=>{
-            this.products=[
-                {title:"product1",description:"product 1 description" ,price:1000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-                {title:"product2",description:"product 2 description" ,price:2000},
-            ]
+        let p = new Promise((resolve,reject)=>{
+            console.log(resolve); 
+            console.log(reject); 
+            setTimeout(()=>reject("error"),300);
+        })
+        .then((value)=> console.log(value))
+        .catch((value)=>console.log(value));
+        console.log(p);
+
+        let data = axios.get("/api/products").then(response=>{
+            this.products = response.data;
             this.loading = false;
-            },3000);
+        });
     },
 })
 </script>

@@ -22,3 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/products' , function(){
     return Product::all();
 });
+Route::get('/products/{id}' , function($id){
+    return Product::findOrFail($id);
+});

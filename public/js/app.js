@@ -1950,7 +1950,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     "productTitle": String,
@@ -1971,7 +1970,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./product */ "./resources/js/products/product.vue");
-//
 //
 //
 //
@@ -2021,63 +2019,22 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.loading = true;
-    setTimeout(function () {
-      _this.products = [{
-        title: "product1",
-        description: "product 1 description",
-        price: 1000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }, {
-        title: "product2",
-        description: "product 2 description",
-        price: 2000
-      }];
+    var p = new Promise(function (resolve, reject) {
+      console.log(resolve);
+      console.log(reject);
+      setTimeout(function () {
+        return reject("error");
+      }, 300);
+    }).then(function (value) {
+      return console.log(value);
+    })["catch"](function (value) {
+      return console.log(value);
+    });
+    console.log(p);
+    var data = axios.get("/api/products").then(function (response) {
+      _this.products = response.data;
       _this.loading = false;
-    }, 3000);
+    });
   }
 });
 
@@ -37844,7 +37801,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card w-100" }, [
     _c("div", { staticClass: "card-body" }, [
       _c("h1", { staticClass: "card-title" }, [
         _vm._v(_vm._s(_vm.productTitle))
@@ -37852,10 +37809,6 @@ var render = function() {
       _vm._v(" "),
       _c("p", { staticClass: "card-text" }, [
         _vm._v(_vm._s(_vm.productDescription))
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "card-text" }, [
-        _vm._v(_vm._s(_vm.productPrice) + "$")
       ])
     ])
   ])
@@ -37895,13 +37848,15 @@ var render = function() {
                 _vm._l(_vm.productsInRow(row), function(product, column) {
                   return _c(
                     "div",
-                    { key: "row" + row + column, staticClass: "col" },
+                    {
+                      key: "row" + row + column,
+                      staticClass: "col d-flex align-items-stretch"
+                    },
                     [
                       _c("Product", {
                         attrs: {
                           "product-title": product.title,
-                          "product-description": product.description,
-                          "product-price": product.price
+                          "product-description": product.description
                         }
                       })
                     ],
