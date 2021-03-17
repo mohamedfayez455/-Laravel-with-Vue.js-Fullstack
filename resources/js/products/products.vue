@@ -6,10 +6,17 @@
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="'row'+row">
                 <div class="col d-flex align-items-stretch" v-for="(product , column) in productsInRow(row)" :key="'row' + row + column">
-                    <Product
-                    :product-title=" product.title "
-                    :product-description=" product.description "
-                    ></Product>
+             
+                <!--here if you want to bind each props   -->
+                    <!-- <Product
+                    :title=" product.title "
+                    :description=" product.description "
+                    ></Product> -->
+                    
+                <!--  here if you want to bind all props as object   -->
+                    <Product v-bind="product"></Product>
+
+
                 </div>
                 <div class="col" v-for="p in placeholderInRow(row)" :key="'placholder' + row + p"></div>
             </div>
@@ -57,7 +64,7 @@ export default ({
         console.log(p);
 
         let data = axios.get("/api/products").then(response=>{
-            this.products = response.data;
+            this.products = response.data.data;
             this.loading = false;
         });
     },

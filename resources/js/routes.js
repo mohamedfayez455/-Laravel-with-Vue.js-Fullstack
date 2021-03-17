@@ -1,6 +1,6 @@
 import VueRouter from "vue-router"
 import Products from "./products/products.vue"
-import Example2 from "./components/Example2"
+import Product from "./product/product.vue"
 const routes = [
     {
         path :"/",
@@ -8,9 +8,9 @@ const routes = [
         name : "home",
     },
     {
-        path :"/two",
-        component: Example2,
-        name : "two",
+        path :"/Products/:id",
+        component: Product,
+        name : "product",
     },
 ] 
 

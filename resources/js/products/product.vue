@@ -1,14 +1,16 @@
 <template>
     <div class="card w-100">
         <div class="card-body">
-            <h1 class="card-title">{{ productTitle }}</h1>
-            <p class="card-text">{{ productDescription }}</p>
+            <router-link :to="{name:'product' , params:{id} }">
+                <h1 class="card-title">{{ title }}</h1>
+            </router-link>
+            <p class="card-text">{{ description }}</p>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props:{"productTitle":String ,"productDescription":String ,"productPrice":Number  }
+    props:{"title":String ,"description":String ,"id":Number  }
 }
 </script>
