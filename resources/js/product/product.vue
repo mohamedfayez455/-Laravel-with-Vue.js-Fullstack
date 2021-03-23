@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 pb-4">
             <div class="card">
                 <div class="card-body">
                     <div v-if="!loading">
@@ -13,15 +13,22 @@
                     </div>
                 </div>
             </div>
-        </div>  
-        <div class="col-md-4">
-            xx
-        </div>  
+            <ReviewList :product-id="this.$route.params.id"></ReviewList>
+        </div>
+        <div class="col-md-4 pb-4">
+            <availability :product-id="this.$route.params.id"></availability>
+        </div>
     </div>
 </template>
 
 <script>
+import Availability from "./availability"
+import ReviewList from "./ReviewList"
 export default ({
+    components:{
+        Availability,
+        ReviewList
+    },
     data() {
         return {
             product:null,

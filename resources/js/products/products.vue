@@ -6,13 +6,13 @@
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="'row'+row">
                 <div class="col d-flex align-items-stretch" v-for="(product , column) in productsInRow(row)" :key="'row' + row + column">
-             
+
                 <!--here if you want to bind each props   -->
                     <!-- <Product
                     :title=" product.title "
                     :description=" product.description "
                     ></Product> -->
-                    
+
                 <!--  here if you want to bind all props as object   -->
                     <Product v-bind="product"></Product>
 
@@ -54,14 +54,14 @@ export default ({
         },
     },
     created() {
-        let p = new Promise((resolve,reject)=>{
-            console.log(resolve); 
-            console.log(reject); 
-            setTimeout(()=>reject("error"),300);
-        })
-        .then((value)=> console.log(value))
-        .catch((value)=>console.log(value));
-        console.log(p);
+        // let p = new Promise((resolve,reject)=>{
+        //     console.log(resolve);
+        //     console.log(reject);
+        //     setTimeout(()=>reject("error"),300);
+        // })
+        // .then((value)=> console.log(value))
+        // .catch((value)=>console.log(value));
+        // console.log(p);
 
         let data = axios.get("/api/products").then(response=>{
             this.products = response.data.data;
