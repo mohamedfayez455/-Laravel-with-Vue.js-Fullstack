@@ -1,3 +1,5 @@
+import ValidationError from "./shared/components/ValidationErrors";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -7,10 +9,16 @@ import router from "./routes"
 import Index from './index'
 import moment from "moment"
 import starRating from "./shared/components/StarRating"
+import FatalError from "./shared/components/FatalError"
+import Success from "./shared/components/Success"
+import ValidationErrors from "./shared/components/ValidationErrors"
 
 Vue.filter("fromNow" , value => moment(value).fromNow());
 
-Vue.component('starRating', starRating);
+Vue.component('star-rating', starRating);
+Vue.component('fatal-error', FatalError);
+Vue.component('success', Success);
+Vue.component('v-error', ValidationErrors);
 
 Vue.use(VueRouter)
 

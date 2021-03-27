@@ -9,12 +9,12 @@
             <div class="form-group col-md-6">
                 <label for="form">From</label>
                 <input type="text" name="from" @keyup.enter="check" v-model="from" :class="[{'is-invalid' : this.errorFor('from')}]" class="form-control form-control-sm" placeholder="Start date">
-                <div class="invalid-feedback" v-for="(error , index) in this.errorFor('from')" :key="'from' + index">{{error}}</div>
+                <v-error :errors="errorFor('from')"></v-error>
             </div>
             <div class="form-group col-md-6">
                 <label for="to">To</label>
                 <input type="text" name="to" @keyup.enter="check" v-model="to" :class="[{'is-invalid' : this.errorFor('to')}]" class="form-control form-control-sm" placeholder="End date">
-                <div class="invalid-feedback" v-for="(error , index) in this.errorFor('to')" :key="'to' + index">{{error}}</div>
+                <v-error :errors="errorFor('to')"></v-error>
             </div>
         </div>
         <button @click="check" :disabled="loading" class="btn btn-secondary btn-block">Check!</button>
@@ -22,17 +22,17 @@
 </template>
 
 <script>
+import {is422} from './../shared/utils/response';
+import ValidationErrorsFunction from '../shared/mixins/ValidationErrosrFunction';
+
 export default({
-    // props:{
-    //    productId:String
-    // },
+    mixins:[ValidationErrorsFunction],
     props:['productId'],
     data(){
         return{
             from:null,
             to:null,
             loading:false,
-            errors:null,
             status:null
         }
     },
@@ -47,17 +47,14 @@ export default({
                     this.status = response.status;
                 }).catch(error=>{
                     console.log(error)
-                    if (error.response.status == 422){
+                    if (is422(error)){
                         this.errors = error.response.data.errors;
                     }
                     this.status = error.response.status;
                 }).then(()=>{
                     this.loading = false;
             });
-        },
-            errorFor(field){
-                return this.hasError && this.errors[field] ? this.errors[field]  :  null;
-        },
+        }
     },
     computed:{
         hasError(){

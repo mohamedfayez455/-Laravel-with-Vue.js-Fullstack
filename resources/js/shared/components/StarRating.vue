@@ -1,29 +1,33 @@
 <template>
     <div class="d-flex">
-        <i class="fas fa-star" v-for="full in fullStars"></i>
+        <i class="fas fa-star" v-for="star in fullStars" @click="$emit('input' , star)"></i>
         <i class="fas fa-star-half-alt" v-if="halfStar"></i>
-        <i class="far fa-star" v-for="empty in emptyStars"></i>
+        <i class="far fa-star" v-for="star in emptyStars" @click="$emit('input' , fullStars+ star)"></i>
     </div>
 </template>
 <script>
 export default {
     props:{
-        rating:Number,
+        value:Number,
     },
     data(){
         return{
 
         }
     },
+    created() {
+        // console.log(`the rate is ${this.value}`);
+    },
     computed:{
         fullStars(){
-            return 2;
+            return Math.round(this.value);
         },
         emptyStars(){
-            return 2;
+            return 5 - Math.ceil(this.value);
         },
         halfStar(){
-            return true;
+            const fraction = Math.round(this.value - Math.floor(this.value) * 100)
+            return fraction > 0 && fraction < 50;
         }
     }
 }

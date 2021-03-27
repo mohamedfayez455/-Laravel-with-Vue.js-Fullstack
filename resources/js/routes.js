@@ -1,6 +1,7 @@
 import VueRouter from "vue-router"
 import Products from "./products/products.vue"
 import Product from "./product/product.vue"
+import Review from "./review/Review"
 const routes = [
     {
         path :"/",
@@ -12,7 +13,12 @@ const routes = [
         component: Product,
         name : "product",
     },
-] 
+    {
+        path :"/review/:id",
+        component: Review,
+        name : "review",
+    },
+]
 
 const router = new VueRouter({
     mode:"history",

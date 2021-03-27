@@ -9,15 +9,14 @@
                         mohamed fayez
                     </div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        {{ review.rating }}
-                        <star-rating></star-rating>
+                        <star-rating :value="review.rating" class="fa-lg"></star-rating>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">{{ review.created_at   | fromNow}}</div>
                 </div>
                 <div class="row pt-4 pb-4">
-                    <div class="col-md-12">{{ review.content }}</div>
+                    <div class="col-md-12">{{ review.content }} </div>
                 </div>
             </div>
         </div>
