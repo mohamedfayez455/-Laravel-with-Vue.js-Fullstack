@@ -22,5 +22,6 @@ $factory->define(Product::class, function (Faker $faker) use($products) {
     return [
         "title" => Arr::random($products),
         "description" => $faker->text(),
+        "price" => random_int(20,200),
     ];
 });

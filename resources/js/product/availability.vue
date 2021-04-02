@@ -2,8 +2,10 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span class="text-danger" v-if="noAvailability">(NOT Available)</span>
-            <span class="text-success" v-if="hasAvailability">(Available)</span>
+            <transition name="fade">
+                <span class="text-danger" v-if="noAvailability">(NOT Available)</span>
+                <span class="text-success" v-if="hasAvailability">(Available)</span>
+            </transition>
         </h6>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -17,7 +19,10 @@
                 <v-error :errors="errorFor('to')"></v-error>
             </div>
         </div>
-        <button @click="check" :disabled="loading" class="btn btn-secondary btn-block">Check!</button>
+        <button @click="check" :disabled="loading" class="btn btn-secondary btn-block">
+            <span v-if="loading"><i class="fas fa-circle-notch fa-spin"></i></span>
+            <span v-if="!loading">check !</span>
+        </button>
     </div>
 </template>
 
@@ -27,11 +32,11 @@ import ValidationErrorsFunction from '../shared/mixins/ValidationErrosrFunction'
 
 export default({
     mixins:[ValidationErrorsFunction],
-    props:['productId'],
+    props: {productId : [String , Number]},
     data(){
         return{
-            from:null,
-            to:null,
+            from:this.$store.state.lastSearch.from,
+            to:this.$store.state.lastSearch.to,
             loading:false,
             status:null
         }
@@ -39,21 +44,26 @@ export default({
     created() {
     },
     methods: {
-        check(){
+        async check(){
             this.loading = true;
             this.errors = null;
-            axios.get(`/api/product/${this.productId}/availability?from=${this.from}&to=${this.to}`)
-                .then(response=>{
-                    this.status = response.status;
-                }).catch(error=>{
-                    console.log(error)
-                    if (is422(error)){
-                        this.errors = error.response.data.errors;
-                    }
-                    this.status = error.response.status;
-                }).then(()=>{
-                    this.loading = false;
+
+            this.$store.dispatch('setLastSearch' , {
+               'from' : this.from,
+               'to' : this.to,
             });
+
+            try {
+                this.status = (await axios.get(`/api/product/${this.productId}/availability?from=${this.from}&to=${this.to}`)).status
+                this.$emit("availability" , this.hasAvailability);
+            }catch (error) {
+                if (is422(error)){
+                    this.errors = error.response.data.errors;
+                }
+                this.status = error.response.status;
+                this.$emit("availability" , this.hasAvailability);
+            }
+            this.loading = false;
         }
     },
     computed:{

@@ -26,10 +26,9 @@
 
 <script>
 export default {
-    // props:{
-    //     productId:String,
-    // },
-    props:['productId'],
+    props:{
+        productId:[String , Number],
+    },
     data(){
         return{
             loading:false,
