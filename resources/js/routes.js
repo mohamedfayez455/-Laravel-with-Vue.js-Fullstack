@@ -2,6 +2,8 @@ import VueRouter from "vue-router"
 import Products from "./products/products.vue"
 import Product from "./product/product.vue"
 import Review from "./review/Review"
+import Basket from "./basket/Basket"
+
 const routes = [
     {
         path :"/",
@@ -17,6 +19,11 @@ const routes = [
         path :"/review/:id",
         component: Review,
         name : "review",
+    },
+    {
+        path :"/basket",
+        component: Basket,
+        name : "basket",
     },
 ]
 

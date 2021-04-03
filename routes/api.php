@@ -24,4 +24,5 @@ Route::get('product/{product}/availability' , 'Api\ProductAvailabilityController
 Route::get('product/{product}/reviews' , 'Api\ReviewProductController')->name('product.reviews.index');
 Route::get('product/{product}/price' , 'Api\ProductPriceController')->name('product.price.show');
 Route::get('booking-by-review/{reviewKey}' , 'Api\BookingByReviewController')->name('booking-by-review-show');
+Route::post('checkout' , 'Api\CheckoutController')->name('checkout');
 Route::apiResource('reviews' , 'Api\ReviewController')->only('show' , 'store');

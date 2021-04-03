@@ -24,9 +24,12 @@
             </transition>
 
             <transition name="fade">
-                <button class="btn btn-outline-secondary btn-block" v-if="price">Book now</button>
+                <button class="btn btn-outline-secondary btn-block" :disabled="inBasketAlready" @click="addToBasket" v-if="price">Book now</button>
             </transition>
 
+            <button class="btn btn-outline-secondary btn-block" v-if="inBasketAlready" @click="removeFromBasket" >remove From Basket</button>
+
+            <div v-if="inBasketAlready" class="mt-4 text-muted warning">Seems likes you 'va add this object to basket already if you want to change date remove from basket first. </div>
 
         </div>
     </div>
@@ -36,7 +39,7 @@
 import Availability from "./availability"
 import priceBreakdown from "./PriceBreakdown"
 import ReviewList from "./ReviewList"
-import {mapState} from "vuex";
+import {mapState , mapGetters} from "vuex";
 
 export default ({
     components:{
@@ -58,9 +61,16 @@ export default ({
             this.loading = false;
         });
     },
-    computed : mapState({
-        lastSearch : "lastSearch"
-    }),
+    computed :{
+        ...mapState({lastSearch : "lastSearch",}),
+        inBasketAlready(){
+            if(this.product == null){
+                return false;
+            }
+            return this.$store.getters.inBasketAlready(this.product.id);
+        }
+    },
+
     methods:{
         async checkPrice(hasAvailability){
             if (!hasAvailability){
@@ -72,7 +82,23 @@ export default ({
             } catch (error) {
                 this.price = null;
             }
+        },
+        addToBasket(){
+            this.$store.dispatch("addToBasket" , {
+                product: this.product,
+                date: this.lastSearch,
+                price : this.price,
+            });
+        },
+        removeFromBasket(){
+            this.$store.dispatch('removeFromBasket' , this.product.id);
         }
     }
 })
 </script>
+
+<style scoped>
+.warning{
+    font-size: .7rem;
+}
+</style>

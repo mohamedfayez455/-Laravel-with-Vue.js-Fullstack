@@ -12,5 +12,6 @@ $factory->define(Booking::class, function (Faker $faker) {
     return [
         'from' => $from,
         'to' => $to,
+        'price'=>random_int(50,500)
     ];
 });
