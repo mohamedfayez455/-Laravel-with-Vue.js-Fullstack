@@ -1,3 +1,5 @@
+import {isLoggedIn, LogOut} from "./shared/utils/auth";
+
 export default {
     state:{
         lastSearch:{
@@ -6,7 +8,11 @@ export default {
         },
         basket:{
           items:[],
-        }
+        },
+        isLoggedIn : false,
+        user:{},
+
+
     },
     getters:{
         itemsInBasket : (state) => state.basket.items.length,
@@ -30,7 +36,13 @@ export default {
         },
         setBasket(state , payload){
             state.basket = payload;
-        }
+        },
+        setUser(state , payload){
+            state.user = payload;
+        },
+        setLoggedIn(state , payload){
+            state.isLoggedIn = payload;
+        },
     },
     actions:{
 
@@ -45,6 +57,7 @@ export default {
             if (basket){
                 context.commit('setBasket' , JSON.parse(basket));
             }
+            context.commit("setLoggedIn" , isLoggedIn());
         },
         setLastSearch(context , payload) {
             context.commit('setLastSearch' , payload);
@@ -62,6 +75,22 @@ export default {
             commit("setBasket" , {items:[]});
             localStorage.setItem('basket'  ,JSON.stringify(state.basket));
         },
+        async loadUser({commit , dispatch}){
+            if (isLoggedIn()){
+                try {
+                    const user = (await (axios.get('/user'))).data;
+                    commit("setUser" , user);
+                    commit("setLoggedIn" , true);
+                }catch (error) {
+                    dispatch("logout");
+                }
+            }
+        },
+        logout({commit}){
+            commit("setUser" , {});
+            commit("setLoggedIn" , false);
+            LogOut();
+        }
 
     }
 }

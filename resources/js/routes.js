@@ -25,6 +25,16 @@ const routes = [
         component: Basket,
         name : "basket",
     },
+    {
+        path :"/auth/login",
+        component: require("./Auth/Login").default,
+        name : "login",
+    },
+    {
+        path :"/auth/register",
+        component: require("./Auth/Register").default,
+        name : "register",
+    },
 ]
 
 const router = new VueRouter({

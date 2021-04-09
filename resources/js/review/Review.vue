@@ -38,7 +38,7 @@
                                 <textarea name="content" v-model="review.content" :class="[{'is-invalid' : errorFor('content')}]" cols="30" rows="10" class="form-control"></textarea>
                                 <v-error :errors="errorFor('content')"></v-error>
                             </div>
-                            <button @click.prevent="submit" :disabled="sending" class="btn btn-block btn-lg btn-primary">Submit</button>
+                            <button @click.prevent="submit" :disabled="sending"  class="btn btn-block btn-lg btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
